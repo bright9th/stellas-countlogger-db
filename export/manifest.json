@@ -1,0 +1,21 @@
+{
+  "format": "parquet",
+  "version": 1,
+  "exportedAt": "2026-11-28T06:39:56.920Z",
+  "snapshot": {
+    "timestamp": "2026-11-28T06:39:49.295Z",
+    "id": "4160:4160:"
+  },
+  "tables": {
+    "messages": {
+      "csv": "messages.csv",
+      "parquet": "messages.parquet",
+      "rowCount": 591122
+    },
+    "users": {
+      "csv": "users.csv",
+      "parquet": "users.parquet",
+      "rowCount": 3072
+    }
+  }
+}
