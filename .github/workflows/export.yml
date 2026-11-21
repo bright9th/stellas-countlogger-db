@@ -22,6 +22,7 @@ jobs:
         id: app-token
         uses: actions/create-github-app-token@v3
         with:
+          permission-contents: write
           client-id: ${{ vars.APP_CLIENT_ID }}
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
 
@@ -45,12 +46,24 @@ jobs:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: npm run export
 
-      - name: Configure Git Identity
-        run: |
-          git config user.name "vita-stellas[bot]"
-          git config user.email "APP_ID+vita-stellas[bot]@users.noreply.github.com"
+      - name: Get GitHub App bot Identity
+        id: bot
         env:
-          APP_ID: ${{ vars.APP_ID }}
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          APP_SLUG: ${{ steps.app-token.outputs.app-slug }}
+        run: |
+          USER_ID=$(gh api "/users/${APP_SLUG}[bot]" --jq '.id')
+          echo "user-id=$USER_ID" >> "$GITHUB_OUTPUT"
+
+      - name: Configure Git Identity
+        env:
+          APP_SLUG: ${{ steps.app-token.outputs.app-slug }}
+          BOT_ID: ${{ steps.bot.outputs.user-id }}
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          git config user.name "${APP_SLUG}[bot]"
+          git config user.email "${BOT_ID}+${APP_SLUG}[bot]@users.noreply.github.com"
+          gh auth setup-git
 
       - name: Commit or Amend
         id: commit
