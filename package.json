@@ -1,0 +1,11 @@
+{
+	"scripts": {
+		"export": "node src/index.mjs"
+	},
+	"dependencies": {
+		"@duckdb/node-api": "2.0.1-r.1",
+		"dotenv": "^18.0.10",
+		"pg": "^8.23.1",
+		"pg-copy-streams": "^7.0.0"
+	}
+}
