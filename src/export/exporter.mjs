@@ -90,7 +90,7 @@ export async function exportSnapshot() {
   const stagingDir = path.resolve(".staging");
   const finalDir = path.resolve("export");
   await mkdir(stagingDir, { recursive: true });
-  await rm(finalDir, { recursive: true });
+  await rm(finalDir, { recursive: true, force: true });
 
   let transactionStarted = false;
 
